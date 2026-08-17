@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <vault.sdk.version>[20.1.3-release0, 20.1.3-release1000000]</vault.sdk.version>
+        <vault.sdk.version>[26.1.0-release0, 26.1.0-release1000000]</vault.sdk.version>
         <vaultUrl></vaultUrl>
         <username></username>
         <password></password>
@@ -29,35 +29,41 @@
         </repository>
     </repositories>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>veevavault</id>
+            <url>https://repo.veevavault.com/maven</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencies>
         <dependency>
             <groupId>com.veeva.vault.sdk</groupId>
             <artifactId>vault-sdk</artifactId>
             <version>${vault.sdk.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.veeva.vault.sdk.debugger</groupId>
-            <artifactId>vault-sdk-debugger</artifactId>
-            <version>${vault.sdk.version}</version>
-            <scope>runtime</scope>
-        </dependency>
     </dependencies>
 
     <build>
-        <sourceDirectory>${project.basedir}/javasdk/src/main/java</sourceDirectory>
+        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>com.veeva.vault.sdk</groupId>
                 <artifactId>vaultjavasdk-maven-plugin</artifactId>
+                <version>${vault.sdk.version}</version>
                 <configuration>
                     <vaultUrl>${vaultUrl}</vaultUrl>
                     <username>${username}</username>

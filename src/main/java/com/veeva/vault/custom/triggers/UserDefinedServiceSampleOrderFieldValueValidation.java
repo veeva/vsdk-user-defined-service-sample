@@ -21,7 +21,7 @@ public class UserDefinedServiceSampleOrderFieldValueValidation implements Record
     public void execute(RecordTriggerContext recordTriggerContext) {
         /*
          * Get an instance of the Log Service used to log errors and exceptions.
-         * Log Service Java Doc can be found here: https://repo.veevavault.com/javadoc/vault-sdk-api/19.3.5/docs/api/index.html
+         * Log Service Java Doc can be found here: https://repo.veevavault.com/javadoc/vault-sdk-api/26.1.0/docs/api/index.html
          */
         LogService logService = ServiceLocator.locate(LogService.class);
         /*
@@ -34,7 +34,7 @@ public class UserDefinedServiceSampleOrderFieldValueValidation implements Record
         /*
          * Get an instance of the PickList Service used to retrieve picklist values.
          * More information about hor to retrieve picklist values can be found here:
-         * https://repo.veevavault.com/javadoc/vault-sdk-api/20.1.0/docs/api/com/veeva/vault/sdk/api/picklist/package-summary.html
+         * https://repo.veevavault.com/javadoc/vault-sdk-api/26.1.0/docs/api/com/veeva/vault/sdk/api/picklist/package-summary.html
          */
         PicklistService picklistService = ServiceLocator.locate(PicklistService.class);
         // Picklist of bicycle parts in bicycle part orders
@@ -82,8 +82,10 @@ public class UserDefinedServiceSampleOrderFieldValueValidation implements Record
             // Get the order quantity
             BigDecimal orderQuantity = recordChange.getNew().getValue("order_quantity__c", ValueType.NUMBER);
 
-            // Add part name, part manufacturer name and order quantity to maps
-            partAndManufacturerMap.put("'" + bicyclePartName + "'", "'" + bicyclePartManufacturerName + "'");
+            // Add part name, part manufacturer name and order quantity to maps.
+            // Store the raw names (no surrounding quotes) — the CONTAINS filter in doesProductExist now
+            // supplies them through a List TokenRequest, which quotes and escapes each value itself.
+            partAndManufacturerMap.put(bicyclePartName, bicyclePartManufacturerName);
             orderQuantityMap.put(bicyclePartName, orderQuantity);
         });
         logService.logResourceUsage("Before doesProductExist Method Call: ");

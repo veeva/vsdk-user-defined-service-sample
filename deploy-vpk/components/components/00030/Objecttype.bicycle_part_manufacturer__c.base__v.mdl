@@ -1,4 +1,4 @@
-RECREATE Objecttype bicycle_part_manufacturer__c.base__v (
+ALTER Objecttype bicycle_part_manufacturer__c.base__v (
    label('Base Bicycle Part Manufacturer'),
    label_plural('Base Bicycle Part Manufacturers'),
    active(true),

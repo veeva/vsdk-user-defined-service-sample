@@ -1,6 +1,6 @@
 # Vault Java SDK Sample - vsdk-user-defined-service-sample
 
-**Please see the [project wiki](https://github.com/veeva/vsdk-user-defined-service-sample/wiki) for a detailed walkthrough**.
+**Please see the [project wiki](https://gitlab.veevadev.com/veevavaultdevsupport/vsdk-user-defined-service-sample/-/wikis/home) for a detailed walkthrough**.
 
 The **vsdk-user-defined-service-sample** project covers the creation and use of the user-defined services(UDS). 
 User-defined services allow you to wrap reusable logic into a service that can be used by other Vault Java SDK code, such as triggers, actions, or user-defined classes.
@@ -26,8 +26,8 @@ For Eclipse this is done by:
 
 For this project, the custom trigger and necessary vault components are contained in the two separate vault packages (VPK). The VPKs are located in the project's **deploy-vpk** directory  and **need to be deployed to your vault** prior to debugging these use cases:
 
-1.  Clone or download the sample Maven project [vSDK User Defined Service Sample project](https://github.com/veeva/vsdk-user-defined-service-sample) from Github.
-2.  Run through the [Getting Started](https://developer.veevavault.com/sdk/#getting-started) guide to set up your development environment.
+1.  Clone or download the sample Maven project [vSDK Translation Service Sample project](https://gitlab.veevadev.com/veevavaultdevsupport/vsdk-translation-service-sample) from Gitlab.
+2.  Run through the [Getting Started](https://general.veevavault.dev/vault-sdk/getting-started/) guide to set up your development environment.
 3.  Log in to your vault and navigate to **Admin > Deployment > Inbound Packages** and click **Import**:
 4.  Locate and select the following file in your downloaded project file:
 
@@ -37,13 +37,13 @@ For this project, the custom trigger and necessary vault components are containe
 6.  Review the prompts to deploy the package. You will receive an email when vault completes the deployment.
 7.  Repeat steps 3-6 for the vault code, select the package that matches your vault type:
 
-    >Deploy code: Select the \deploy-vpk\components\vsdk-user-defined-service-sample-code.vpk file.
+    > Deploy code: Select the **\deploy-vpk\components\vsdk-user-defined-service-sample-code.vpk** file.
 
 ## License
 
 This code serves as an example and is not meant to be used for production use.
 
-Copyright 2020 Veeva Systems Inc.
+Copyright 2026 Veeva Systems Inc.
  
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
