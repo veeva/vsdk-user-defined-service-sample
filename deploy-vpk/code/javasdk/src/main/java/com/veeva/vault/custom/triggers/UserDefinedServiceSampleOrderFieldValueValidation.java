@@ -21,7 +21,7 @@ public class UserDefinedServiceSampleOrderFieldValueValidation implements Record
     public void execute(RecordTriggerContext recordTriggerContext) {
         /*
          * Get an instance of the Log Service used to log errors and exceptions.
-         * Log Service Java Doc can be found here: https://repo.veevavault.com/javadoc/vault-sdk-api/19.3.5/docs/api/index.html
+         * Log Service Java Doc can be found here: https://repo.veevavault.com/javadoc/vault-sdk-api/26.1.0/docs/api/index.html
          */
         LogService logService = ServiceLocator.locate(LogService.class);
         /*
@@ -33,8 +33,8 @@ public class UserDefinedServiceSampleOrderFieldValueValidation implements Record
 
         /*
          * Get an instance of the PickList Service used to retrieve picklist values.
-         * More information about hor to retrive picklist values can be found here:
-         * https://repo.veevavault.com/javadoc/vault-sdk-api/20.1.0/docs/api/com/veeva/vault/sdk/api/picklist/package-summary.html
+         * More information about hor to retrieve picklist values can be found here:
+         * https://repo.veevavault.com/javadoc/vault-sdk-api/26.1.0/docs/api/com/veeva/vault/sdk/api/picklist/package-summary.html
          */
         PicklistService picklistService = ServiceLocator.locate(PicklistService.class);
         // Picklist of bicycle parts in bicycle part orders
@@ -58,18 +58,18 @@ public class UserDefinedServiceSampleOrderFieldValueValidation implements Record
 
             // Get the name(label) of the bicycle part using the bicyclePartPickList
             if (bicyclePartsListValues != null && !bicyclePartsListValues.isEmpty()) {
-                //Get single-picklist value name selected by user
+                // Get single-picklist value name selected by user
                 String partPicklistValueName = bicyclePartsListValues.get(0);
-                //Get picklist value label
+                // Get picklist value label
                 bicyclePartName = bicyclePartPicklist.getPicklistValue(partPicklistValueName).getLabel();
             }
 
             // Get the name(label) of the bicycle part manufacturer using the bicyclePartManufacturerPickList
             List<String> bicyclePartManufacturersListValues = recordChange.getNew().getValue("bicycle_part_manufacturer__c", ValueType.PICKLIST_VALUES);
             if (bicyclePartManufacturersListValues != null && !bicyclePartManufacturersListValues.isEmpty()) {
-                //Get single-picklist value name selected by user
+                // Get single-picklist value name selected by user
                 String partManufacturerPicklistValueName = bicyclePartManufacturersListValues.get(0);
-                //Get picklist value label
+                // Get picklist value label
                 bicyclePartManufacturerName = bicyclePartManufacturersPicklist.getPicklistValue(partManufacturerPicklistValueName).getLabel();
             }
 
@@ -82,8 +82,10 @@ public class UserDefinedServiceSampleOrderFieldValueValidation implements Record
             // Get the order quantity
             BigDecimal orderQuantity = recordChange.getNew().getValue("order_quantity__c", ValueType.NUMBER);
 
-            // Add part name, part manufacturer name and order quantity to maps
-            partAndManufacturerMap.put("'" + bicyclePartName + "'", "'" + bicyclePartManufacturerName + "'");
+            // Add part name, part manufacturer name and order quantity to maps.
+            // Store the raw names (no surrounding quotes) — the CONTAINS filter in doesProductExist now
+            // supplies them through a List TokenRequest, which quotes and escapes each value itself.
+            partAndManufacturerMap.put(bicyclePartName, bicyclePartManufacturerName);
             orderQuantityMap.put(bicyclePartName, orderQuantity);
         });
         logService.logResourceUsage("Before doesProductExist Method Call: ");
@@ -92,7 +94,7 @@ public class UserDefinedServiceSampleOrderFieldValueValidation implements Record
 
         // Validate that all user entered bicycle part name were found, if not setError on the record change.
         for (RecordChange recordChange : recordTriggerContext.getRecordChanges()) {
-            // If no results were found, all user inputted products and manufacturer combinations are wrong.
+            // If no results were found, all user inputted parts and manufacturer combinations are wrong.
             if (doProductsExist == null) {
                 recordChange.setError("INVALID_ARGUMENT", "Product with specified manufacturer does not exist.");
                 continue;
@@ -104,9 +106,9 @@ public class UserDefinedServiceSampleOrderFieldValueValidation implements Record
             String bicyclePartName = "";
             // Get the name(label) of the bicycle part using the bicyclePartPickList
             if (bicyclePartsListValues != null && !bicyclePartsListValues.isEmpty()) {
-                //Get single-picklist value name selected by user
+                // Get single-picklist value name selected by user
                 String partPicklistValueName = bicyclePartsListValues.get(0);
-                //Get picklist value label
+                // Get picklist value label
                 bicyclePartName = bicyclePartPicklist.getPicklistValue(partPicklistValueName).getLabel();
             }
 
